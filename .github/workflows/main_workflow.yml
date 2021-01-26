@@ -1,0 +1,35 @@
+name: Main workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  modify_deploy_app:
+    name: modifi_deploy_app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Change index.html
+        uses: ./.github/actions/modify_index_image_action
+        with:
+          gifs_alternative_1: "https://pixelpapa.com/wp-content/uploads/2018/11/2.gif"
+          gifs_alternative_2: "https://pixelpapa.com/wp-content/uploads/2018/11/3.gif"
+          gifs_alternative_3: "https://pixelpapa.com/wp-content/uploads/2018/11/9.gif"
+          gifs_alternative_4: "https://pixelpapa.com/wp-content/uploads/2018/11/8.gif"
+      - name: Push changes to repository
+        run: |
+          git config user.name dawEstacio
+          git config user.email vidal_jossal@iestacio.com
+          git add .
+          git commit -m "Modificado index.html"
+          git push origin main
+      - name: Deploy to vidalsalvador.surge.sh
+        uses: dswistowski/surge-sh-action@v1
+        with:
+          domain: "vidalsalvador.surge.sh"
+          project: "."
+          login: ${{ secrets.surge_login }}
+          token: ${{ secrets.surge_token }}
