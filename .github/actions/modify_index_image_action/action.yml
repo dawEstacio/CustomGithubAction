@@ -1,0 +1,21 @@
+name: "Change loader image action"
+description: "Action to change the image on index.html"
+inputs:
+  gifs_alternative_1:
+    description: "Gif alternative 1"
+    required: true
+  gifs_alternative_2:
+    description: "Gif alternative 2"
+    required: true
+  gifs_alternative_3:
+    description: "Gif alternative 3"
+    required: true
+  gifs_alternative_4:
+    description: "Gif alternative 4"
+    required: true
+outputs:
+  response:
+    description: "Response of our action"
+runs:
+  using: "node12"
+  main: "dist/index.js"
